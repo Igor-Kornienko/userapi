@@ -1,0 +1,2 @@
+INSERT INTO user (age, email, name, phone_number) VALUES (18, 'smb1@gmail.com', 'smb1', '+122312312313');
+INSERT INTO user (age, email, name, phone_number) VALUES (20, 'smb2@gmail.com', 'smb2', '+126652312313');
