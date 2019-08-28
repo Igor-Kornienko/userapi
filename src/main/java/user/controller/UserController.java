@@ -5,6 +5,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import user.database.User;
 import user.database.UserRepository;
@@ -25,7 +26,8 @@ public class UserController {
         this.assembler = assembler;
     }
 
-    @GetMapping(value = "/users", produces = "application/json")
+    @GetMapping(value = "users", produces = "application/json")
+   // @PreAuthorize("hasAuthority('USER')")
     Resources<Resource<User>> all(){
         List<Resource<User>> users = repo.findAll().stream()
                 .map(assembler::toResource)
@@ -35,7 +37,8 @@ public class UserController {
                 linkTo(methodOn(UserController.class).all()).withSelfRel());
     }
 
-    @PostMapping(value = "/users", produces = "application/json")
+    @PostMapping(value = "users", produces = "application/json")
+    //@PreAuthorize("hasAuthority('USER')")
     ResponseEntity<?> newUser(@RequestBody User newUser) throws URISyntaxException {
         Resource<User> res = assembler.toResource(repo.save(newUser));
         return ResponseEntity
@@ -43,14 +46,16 @@ public class UserController {
                 .body(res);
     }
 
-    @GetMapping(value = "/users/{id}", produces = "application/json")
+    @GetMapping(value = "users/{id}", produces = "application/json")
+    @PreAuthorize("hasAuthority('USER')")
     Resource<User> one (@PathVariable Long id) {
         User user = repo.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
         return assembler.toResource(user);
     }
 
-    @PutMapping(value = "/users/{id}", produces = "application/json")
+    @PutMapping(value = "users/{id}", produces = "application/json")
+    //@PreAuthorize("hasAuthority('USER')")
     ResponseEntity<?> replaceUser(@RequestBody User newUser, @PathVariable Long id) throws URISyntaxException {
 
         Resource<User> res = assembler.toResource(
@@ -72,7 +77,8 @@ public class UserController {
                 .body(res);
     }
 
-    @DeleteMapping(value = "/users/{id}", produces = "application/json")
+    @DeleteMapping(value = "users/{id}", produces = "application/json")
+    //@PreAuthorize("hasAuthority('USER')")
     ResponseEntity<?> deleteUser(@PathVariable Long id) {
         repo.deleteById(id);
 
