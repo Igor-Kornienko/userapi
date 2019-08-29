@@ -1,5 +1,6 @@
 package user.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import user.database.User;
 import user.database.UserRepository;
 import user.exceptions.UserNotFoundException;
@@ -18,6 +19,7 @@ public class UserService {
     }
 
     public void newUser(User newUser) {
+        newUser.setPassHash(new BCryptPasswordEncoder().encode(newUser.getPassHash()));
         repo.save(newUser);
     }
 
@@ -31,7 +33,7 @@ public class UserService {
                 .map(user -> {
                     user.setName(newUser.getName());
                     user.setEmail(newUser.getEmail());
-                    user.setPassHash(newUser.getPassHash());
+                    user.setPassHash(new BCryptPasswordEncoder().encode(newUser.getPassHash()));
                     user.setRole(newUser.getRole());
                     user.setAge(newUser.getAge());
                     user.setPhoneNumber(newUser.getPhoneNumber());
