@@ -31,4 +31,10 @@ public class User {
             joinColumns = {@JoinColumn(name = "userId")},
             inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles = new ArrayList<>();
+
+    public User (String name, String email, String passHash) {
+        this.name = name;
+        this.email = email;
+        this.passHash = passHash;
+    }
 }

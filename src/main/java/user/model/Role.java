@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
-import user.model.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;
