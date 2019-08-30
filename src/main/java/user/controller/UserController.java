@@ -1,19 +1,17 @@
 package user.controller;
 
+import lombok.AllArgsConstructor;
 import user.service.UserService;
 
 import org.springframework.web.bind.annotation.*;
-import user.database.User;
-import user.database.UserRepository;
+import user.model.User;
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
+@RequestMapping("userAPI/")
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserRepository repo) {
-        userService = new UserService(repo);
-    }
 
     @GetMapping(value = "users", produces = "application/json")
     List<User> all() {

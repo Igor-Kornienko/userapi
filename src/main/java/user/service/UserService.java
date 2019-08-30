@@ -1,17 +1,17 @@
 package user.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import user.database.User;
-import user.database.UserRepository;
-import user.exceptions.UserNotFoundException;
+import org.springframework.stereotype.Service;
+import user.model.User;
+import user.repository.UserRepository;
+import user.exception.UserNotFoundException;
 import java.util.List;
 
+@Service
 public class UserService {
-    private final UserRepository repo;
-
-    public UserService(UserRepository repo) {
-        this.repo = repo;
-    }
+    @Autowired
+    private UserRepository repo;
 
     public List<User> all() {
         List<User> users = repo.findAll();
@@ -34,7 +34,7 @@ public class UserService {
                     user.setName(newUser.getName());
                     user.setEmail(newUser.getEmail());
                     user.setPassHash(new BCryptPasswordEncoder().encode(newUser.getPassHash()));
-                    user.setRole(newUser.getRole());
+                    user.setRoles(newUser.getRoles());
                     user.setAge(newUser.getAge());
                     user.setPhoneNumber(newUser.getPhoneNumber());
                     return repo.save(user);

@@ -1,4 +1,4 @@
-package user.exceptions;
+package user.exception;
 
 public class UserNotFoundException extends RuntimeException {
 

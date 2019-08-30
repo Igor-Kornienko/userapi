@@ -1,0 +1,15 @@
+CREATE TABLE Role (
+    id SERIAL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(20)
+);
+
+CREATE TABLE UserRoles
+(
+    userId BIGINT UNSIGNED,
+    roleId BIGINT UNSIGNED,
+    PRIMARY KEY (userId, roleId),
+    FOREIGN KEY (userId) REFERENCES user (id),
+    FOREIGN KEY (roleId) REFERENCES Role (id)
+);
+
+ALTER TABLE user DROP COLUMN role;

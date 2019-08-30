@@ -15,13 +15,5 @@ spring:
     username: root
     password:
 security:
-  oauth2.resource.filter-order: 3
-  signing-key: MaYzkSjmkzPC57L
-  security-realm: Spring Boot JWT Example Realm
-  jwt:
-    client-id: userAPI
-    client-secret: XY7kmzoNzl100
-    grant-type: password
-    scope-read: read
-    scope-write: write
-    resource-ids: testjwtresourceid
+  jwtSecret: Guess
+  jwtExpirationInMs: 1800
