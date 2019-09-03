@@ -14,7 +14,6 @@ import java.util.List;
 @Data
 @Entity
 public class Role {
-
     private @Id @GeneratedValue Long id;
     private @NonNull String name;
     @ManyToMany(mappedBy = "roles")
