@@ -3,7 +3,8 @@ package user.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import user.model.Role;
+import user.dto.UserDto;
+import user.mapper.UserMapper;
 import user.model.User;
 import user.repository.UserRepository;
 import user.exception.UserNotFoundException;
@@ -14,28 +15,13 @@ public class UserService {
     @Autowired
     private UserRepository repo;
 
-    public List<User> all() {
-        List<User> users = repo.findAll();
-        return users;
+    public List<UserDto> all() {
+        return UserMapper.INSTANCE.fromUsers(repo.findAll());
     }
 
-    public List<User> roleFilter(List<User> users) {
-        for (User user : users) {
-            roleFilter(user);
-        }
-        return users;
-    }
-
-    public User roleFilter(User user) {
-        for (Role role : user.getRoles()) {
-            role.setUsers(null);
-        }
-        return user;
-    }
-
-    public User one(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+    public UserDto one(Long id) {
+        return UserMapper.INSTANCE.fromUser(repo.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id)));
     }
 
     public void replaceUser(User newUser, Long id) {
