@@ -9,6 +9,7 @@ import user.model.User;
 import user.repository.UserRepository;
 import user.exception.UserNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -16,7 +17,9 @@ public class UserService {
     private UserRepository repo;
 
     public List<UserDto> all() {
-        return UserMapper.INSTANCE.fromUsers(repo.findAll());
+        return repo.findAll().stream()
+                .map(user -> UserMapper.INSTANCE.fromUser(user))
+                .collect(Collectors.toList());
     }
 
     public UserDto one(Long id) {

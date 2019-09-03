@@ -10,26 +10,19 @@ import user.model.Role;
 import user.model.User;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    User toUser(UserDto userDto);
-
-    List<User> toUsers(List<UserDto> userDto);
-
-    @InheritInverseConfiguration
     UserDto fromUser(User user);
-
-    @InheritInverseConfiguration
-    List<UserDto> fromUsers(List<User> user);
 
     void updateUserFromDto(UserDto userDto, @MappingTarget User user);
 
-    void updateUsersFromDtos(List<UserDto> userDto, @MappingTarget List<User> user);
-
-    default List<RoleDto> roleToRoleDto (List<Role> role) {
-        return RoleMapper.INSTANCE.fromRoles(role);
+    default List<RoleDto> roleToRoleDto (List<Role> roles) {
+        return roles.stream()
+                .map(role -> RoleMapper.INSTANCE.fromRole(role))
+                .collect(Collectors.toList());
     }
 }

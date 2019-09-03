@@ -2,6 +2,7 @@ package user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import user.dto.UserDto;
 import user.service.UserService;
 
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +16,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users")
-    List<User> all() {
-        return userService.roleFilter(userService.all());
+    List<UserDto> all() {
+        return userService.all();
     }
 
     @GetMapping("/users/{id}")
-    User one(@PathVariable Long id) {
-        return userService.roleFilter(userService.one(id));
+    UserDto one(@PathVariable Long id) {
+        return userService.one(id);
     }
 
     @PutMapping("/users/{id}")
