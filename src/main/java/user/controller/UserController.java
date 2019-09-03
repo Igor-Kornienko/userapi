@@ -1,39 +1,36 @@
 package user.controller;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import user.service.UserService;
 
 import org.springframework.web.bind.annotation.*;
 import user.model.User;
 import java.util.List;
 
-@AllArgsConstructor
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api")
 public class UserController {
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    @GetMapping(value = "users", produces = "application/json")
+    @GetMapping("/users")
     List<User> all() {
-        return userService.all();
+        return userService.roleFilter(userService.all());
     }
 
-    @PostMapping(value = "users", produces = "application/json")
-    void newUser(@RequestBody User newUser) {
-        userService.newUser(newUser);
-    }
-
-    @GetMapping(value = "users/{id}", produces = "application/json")
+    @GetMapping("/users/{id}")
     User one(@PathVariable Long id) {
-        return userService.one(id);
+        return userService.roleFilter(userService.one(id));
     }
 
-    @PutMapping(value = "users/{id}", produces = "application/json")
+    @PutMapping("/users/{id}")
     void replaceUser(@RequestBody User newUser, @PathVariable Long id) {
         userService.replaceUser(newUser, id);
     }
 
-    @DeleteMapping(value = "users/{id}", produces = "application/json")
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/users/{id}")
     void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }

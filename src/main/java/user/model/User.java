@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +19,11 @@ public class User {
 
     private @Id @GeneratedValue Long id;
 
-    private @NonNull String name;
-    private @NonNull String email;
-    private @NonNull String passHash;
+    private @NonNull @Size(max = 100) String name;
+    private @NonNull @Size(max = 100) @Email String email;
+    private @NonNull @Size(max = 60) String passHash;
     private int age;
-    private String phoneNumber;
+    private @Size(max = 15) String phoneNumber;
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE

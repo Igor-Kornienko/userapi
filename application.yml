@@ -16,4 +16,4 @@ spring:
     password:
 security:
   jwtSecret: Guess
-  jwtExpirationInMs: 1800
+  jwtExpirationInMs: 1800000

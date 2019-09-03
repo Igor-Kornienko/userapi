@@ -3,6 +3,7 @@ package user.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import user.model.Role;
 import user.model.User;
 import user.repository.UserRepository;
 import user.exception.UserNotFoundException;
@@ -18,9 +19,18 @@ public class UserService {
         return users;
     }
 
-    public void newUser(User newUser) {
-        newUser.setPassHash(new BCryptPasswordEncoder().encode(newUser.getPassHash()));
-        repo.save(newUser);
+    public List<User> roleFilter(List<User> users) {
+        for (User user : users) {
+            roleFilter(user);
+        }
+        return users;
+    }
+
+    public User roleFilter(User user) {
+        for (Role role : user.getRoles()) {
+            role.setUsers(null);
+        }
+        return user;
     }
 
     public User one(Long id) {

@@ -2,5 +2,6 @@
 /workspace.xml
 
 # Datasource local storage ignored files
+/libraries/
 /dataSources/
 /dataSources.local.xml

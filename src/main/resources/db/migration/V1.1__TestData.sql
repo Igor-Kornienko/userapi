@@ -1,0 +1,2 @@
+INSERT INTO user (id, age, email, name, phone_number, pass_hash) VALUES (1, 18, 'smb1@gmail.com', 'smb1', '+122312312313', '$2a$10$As9cqR69wNgmHTL6NNuV7.FddSNarbSCkKyIfok98UgFheLasUb/e');
+INSERT INTO user (id, age, email, name, phone_number, pass_hash) VALUES (2, 20, 'smb2@gmail.com', 'smb2', '+126652312313', '$2a$10$8WDuFX7KQjX8c40eiC6Y9.wvK1IAlpdkNmFCOQfVT7XUZb1p6dk3m');
