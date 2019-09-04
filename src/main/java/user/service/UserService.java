@@ -3,11 +3,17 @@ package user.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import user.dto.UserDto;
 import user.mapper.UserMapper;
 import user.model.User;
 import user.repository.UserRepository;
 import user.exception.UserNotFoundException;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +21,47 @@ import java.util.stream.Collectors;
 public class UserService {
     @Autowired
     private UserRepository repo;
+
+    @PersistenceUnit
+    private EntityManagerFactory entityManagerFactory;
+
+    public void create1hundredthousandsusers() {
+
+        Date startTime = new Date();
+
+        for (int i = 0; i < 5; i++) {
+            Thread a = new Thread(){
+                @Override
+                public void run() {
+                    create10000user(startTime);
+                }
+            };
+
+            a.start();
+        }
+    }
+
+    @Transactional
+    public void create10000user(Date startTime) {
+
+        List<User> users = new ArrayList<>();
+
+        for (int i = 0; i < 20000; i++) {
+            User a = new User();
+            a.setName("a");
+            a.setEmail("a@gmail.com");
+
+            users.add(a);
+        }
+
+        repo.saveAll(users);
+
+        System.out.println(new Date().getTime() - startTime.getTime());
+    }
+
+    public long count(){
+        return repo.countUserByName("a");
+    }
 
     public List<UserDto> all() {
         return repo.findAll().stream()

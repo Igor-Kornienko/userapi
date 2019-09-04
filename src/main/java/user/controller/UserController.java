@@ -7,6 +7,7 @@ import user.service.UserService;
 
 import org.springframework.web.bind.annotation.*;
 import user.model.User;
+
 import java.util.List;
 
 @RestController
@@ -34,5 +35,15 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping("/CREATE")
+    void create () {
+        userService.create1hundredthousandsusers();
+    }
+
+    @GetMapping("/count")
+    Long count () {
+        return userService.count();
     }
 }

@@ -10,8 +10,10 @@ spring:
       hibernate.cache.use_structured_entries: false
       hibernate.cache.use_minimal_puts: false
   datasource:
+    hikari:
+      maximum-pool-size: 10
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/UserAPI?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/UserAPI?serverTimezone=UTC&autoReconnect=true
     username: root
     password:
 security:
