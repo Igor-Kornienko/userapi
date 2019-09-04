@@ -15,6 +15,9 @@ import javax.persistence.PersistenceUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,35 +31,29 @@ public class UserService {
     public void create1hundredthousandsusers() {
 
         Date startTime = new Date();
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+
+        Runnable create20000user = () -> {
+            List<User> users = new ArrayList<>();
+
+            for (int i = 0; i < 20000; i++) {
+                User a = new User();
+                a.setName("a");
+                a.setEmail("a@gmail.com");
+
+                users.add(a);
+            }
+
+            repo.saveAll(users);
+
+            System.out.println(new Date().getTime() - startTime.getTime());
+        };
 
         for (int i = 0; i < 5; i++) {
-            Thread a = new Thread(){
-                @Override
-                public void run() {
-                    create10000user(startTime);
-                }
-            };
-
-            a.start();
-        }
-    }
-
-    @Transactional
-    public void create10000user(Date startTime) {
-
-        List<User> users = new ArrayList<>();
-
-        for (int i = 0; i < 20000; i++) {
-            User a = new User();
-            a.setName("a");
-            a.setEmail("a@gmail.com");
-
-            users.add(a);
+            executor.execute(create20000user);
         }
 
-        repo.saveAll(users);
-
-        System.out.println(new Date().getTime() - startTime.getTime());
+        executor.shutdown();
     }
 
     public long count(){
